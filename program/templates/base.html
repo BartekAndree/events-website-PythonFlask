@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <meta http-equiv="x-ua-compatible" content="ie=edge" />
+  <title>Events.com</title>
+  <!-- Icon -->
+  <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/1378/1378644.png" type="image/x-icon" />
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.2/css/all.css" />
+  <!-- Google Fonts Roboto -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" />
+  <!-- MDB -->
+  <link href="../static/mdb.min.css" rel="stylesheet" />
+  {% block requirements %}
+  {% endblock %}
+</head>
+
+<body>
+  <section class="" style="padding-bottom: 1px">
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-2">
+      <!-- Container wrapper -->
+      <div class="container-fluid">
+        <div class="d-flex">
+          <!-- Toggle button -->
+          <button class="navbar-toggler" type="button" data-mdb-toggle="collapse"
+            data-mdb-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+            aria-label="Toggle navigation">
+            <i class="fas fa-bars"></i>
+          </button>
+          <!-- Navbar brand -->
+          <a class="navbar-brand ms-3" draggable="false">
+            <i class="fas fa-bullhorn text-primary" aria-controls="#picker-editor"></i>
+          </a>
+        </div>
+        <!-- Collapsible wrapper -->
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <!-- Left links -->
+          <ul class="navbar-nav me-auto mb-2 ms-2 ps-1 ms-lg-0 ps-lg-0 mb-lg-0">
+            <li class="nav-item">
+              <a class="nav-link" href="{{ url_for('home_page') }}" aria-controls="#picker-editor"
+                draggable="false">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{{ url_for('events_list') }}" aria-controls="#picker-editor" draggable="false">
+                Events list 
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{{ url_for('add_event') }}" aria-controls="#picker-editor" draggable="false">
+                Add event
+                <i class="fas fa-plus ms-2"></i>
+              </a>
+            </li>
+          </ul>
+          <!-- Left links -->
+        </div>
+        <!-- Collapsible wrapper -->
+        <!-- Right elements -->
+        {% if current_user.is_authenticated %}
+        <div class="d-flex align-items-center">
+          <a href="#">
+            <button type="button" class="btn btn-link px-3 mb-1" aria-controls="#picker-editor">
+              {{ current_user.username }}
+              <!-- <i class="fas fa-user-edit"></i> -->
+              <img
+                src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20({{ current_user.id }}).webp"
+                class="rounded-circle mx-2"
+                height="25"
+                alt="Profile avatar"
+                loading="lazy"
+              />
+            </button>
+          </a>
+          <a href="{{ url_for('logout_page') }}">
+            <button type="button" class="btn btn-primary mb-1 me-lg-3" aria-controls="#picker-editor">
+              Logout
+              <i class="fas fa-sign-in-alt"></i>
+            </button>
+          </a>
+        </div>
+        {% else %}
+        <div class="d-flex align-items-center">
+          <a href="{{ url_for('login_page') }}">
+            <button type="button" class="btn btn-link px-3 mb-1 me-2" aria-controls="#picker-editor">
+              Login
+            </button>
+          </a>
+          <a href="{{ url_for('register_page') }}">
+            <button type="button" class="btn btn-primary mb-1 me-lg-3" aria-controls="#picker-editor">
+              Register
+            </button>
+          </a>
+        </div>
+        {% endif %}
+
+        <!-- Right elements -->
+      </div>
+      <!-- Container wrapper -->
+    </nav>
+
+    <!-- Navbar -->
+  </section>
+  {% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+  {% for category, message in messages %}
+  <div class="alert alert-{{ category }}">
+    <button type="button" class="btn-close close d-inline" aria-label="Close" data-dismiss="alert"
+      data-mdb-dismiss="alert"></button>
+    <h6 class="d-inline ms-4">{{ message }}</h6>
+  </div>
+  {% endfor %}
+  {% endif %}
+  {% endwith %}
+  <section>
+    {% block content %}
+    {% endblock %}
+  </section>
+
+  <script type="text/javascript" src="../static/mdb.min.js"></script>
+  <!-- Custom scripts -->
+  <script type="text/javascript"></script>
+</body>
+
+</html>

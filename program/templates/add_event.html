@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+{% block requirements %}
+{% endblock %}
+{% block content %}
+<div class="container mt-5">
+    <form method="POST" >
+        {{ form.hidden_tag() }}
+
+        <div class="form-outline my-5">
+
+            {{ form.event_name(type="text", id="eventName", class="form-control",  maxlength="50" ) }}   
+            <label class="form-label" for="eventName">Name of event</label>
+        </div>
+    
+        <div class="form-outline my-5">
+            
+            {{ form.description(class="form-control", id="eventDescription", rows="8", maxlength="1500")}}
+            <label class="form-label" for="eventDescription">Description</label>
+            
+        </div>
+    
+        <div class="row my-5">
+            <div class="col-md-6 my-1">
+                <div class="form-outline">
+
+                    {{ form.date_start(id="eventStartDate", class="form-control", type="date") }}
+                    <label class="form-label" for="eventStartDate">Start date</label>
+                </div>
+            </div>
+    
+            <div class="col-md-6 my-1">
+                <div class="form-outline">
+
+                    {{ form.date_end(id="eventEndDate", class="form-control", type="date") }}
+                    <label class="form-label" for="eventEndDate">End date</label>
+                </div>
+            </div>
+        </div>
+    
+        <div class="form-outline my-5">
+
+            {{ form.google_link(type="url", id="eventGoogleURL", class="form-control") }}
+            <label class="form-label" for="typeURL">URL for google map</label>
+        </div>
+    
+        <div class="form-outline my-5">
+
+            {{ form.photo_link(type="url", id="eventPhotoURL", class="form-control") }}
+            <label class="form-label" for="typeURL">URL for picture</label>
+        </div>
+    
+        <div class="d-grid">
+
+            {{ form.submit(class="btn btn-primary", value="Submit form", type="submit", id="eventSubmit") }}
+        </div>
+
+        
+    
+    </form>
+</div>
+    
+{% endblock %}

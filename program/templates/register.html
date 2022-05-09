@@ -1,0 +1,86 @@
+{% extends 'base.html' %}
+{% block content %}
+<body class="text-center">
+    <div class="container mt-5">
+
+
+<!-- Pills content -->
+
+
+<div class="tab-pane" id="pills-register" role="tabpanel" aria-labelledby="tab-register">
+    <form method="POST">
+      {{ form.hidden_tag() }}
+      <div class="text-center mb-3">
+        <p>Sign up with:</p>
+        <button type="button" class="btn btn-primary btn-floating mx-1">
+          <i class="fab fa-facebook-f"></i>
+        </button>
+
+        <button type="button" class="btn btn-primary btn-floating mx-1">
+          <i class="fab fa-google"></i>
+        </button>
+
+        <button type="button" class="btn btn-primary btn-floating mx-1">
+          <i class="fab fa-twitter"></i>
+        </button>
+
+        <button type="button" class="btn btn-primary btn-floating mx-1">
+          <i class="fab fa-github"></i>
+        </button>
+      </div>
+
+      <p class="text-center">or:</p>
+
+      <!-- Username input -->
+      <div class="form-outline mb-4">
+
+        {{ form.username(class="form-control", type="text", id="registerUsername" ) }}
+        <label class="form-label" for="registerUsername">Username</label>
+      </div>
+
+      <!-- Email input -->
+      <div class="form-outline mb-4">
+
+        {{ form.email_address(class="form-control", type="email", id="registerEmail") }}
+        <label class="form-label" for="registerEmail">Email</label>
+      </div>
+
+      <!-- Password input -->
+      <div class="form-outline mb-4">
+
+        {{ form.password1(class="form-control", type="password", id="registerPassword") }}
+        <label class="form-label" for="registerPassword">Password</label>
+      </div>
+
+      <!-- Repeat Password input -->
+      <div class="form-outline mb-4">
+
+        {{ form.password2(class="form-control", type="password", id="registerRepeatPassword") }}
+        <label class="form-label" for="registerRepeatPassword">Repeat password</label>
+      </div>
+
+      <!-- Checkbox -->
+      <div class="form-check d-flex justify-content-center mb-4">
+        <input
+          class="form-check-input me-2"
+          type="checkbox"
+          value=""
+          id="registerCheck"
+          checked
+          aria-describedby="registerCheckHelpText"
+        />
+        <label class="form-check-label" for="registerCheck">
+          I have read and agree to the terms
+        </label>
+      </div>
+
+      <!-- Submit button -->
+
+      {{ form.submit(type="submit", class="btn btn-primary btn-block mb-3") }}
+    </form>
+  </div>
+</div>
+<!-- Pills content -->
+    </div>
+</body>
+{% endblock %}

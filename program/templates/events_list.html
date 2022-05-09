@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% block requirements %}
+<style>
+  .bg-image{
+    aspect-ratio: 16 / 9;
+  }
+</style>
+{% endblock %}
+{% block content %}
+
+<body>
+
+  <div id="preview" class="preview">
+    <div style="display: none"></div>
+    
+    
+    <div>
+      <div data-draggable="true" class="" style="position: relative" draggable="false">
+        <section draggable="false" class="overflow-hidden pt-5" data-v-271253ee="">
+          <section class="mb-10">
+            <h2 class="fw-bold mb-5 text-center">Events list</h2>
+            {% for event in events %}
+            <div class="row mb-4">
+              <div class="col-md-3 mb-4 mb-md-0 ms-auto">
+                <div class="bg-image hover-overlay ripple shadow-1-strong rounded-4 mb-4" data-mdb-ripple-color="light">
+                  <img src="{{ event.photo_link }}" class="w-100 bg-image" alt="Default event photo" aria-controls="#picker-editor" draggable="false"/>
+                </div>
+              </div>
+              <div class="col-md-9 col-xl-7 mb-4 mb-md-0 me-auto">
+                <h5 class="fw-bold">{{ event.event_name }}</h5>
+                <div class="mb-2 text-primary medium">
+                  <span>
+                    {{ event.date_start.strftime('%d-%m-%Y') }}
+                    -
+                    {{ event.date_end.strftime('%d-%m-%Y') }}
+                  </span>
+                </div>
+                <p class="text-muted">
+                {{ event.description }}
+                </p>
+                <a href="/event_page/{{ event.id }}" class="btn btn-primary btn-rounded"
+                  aria-controls="#picker-editor">Read more</a>
+              </div>
+            </div>
+            {% endfor %}
+          </section>
+        </section>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- MDB -->
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/3.11.0/mdb.min.js"></script>
+  <!-- Custom scripts -->
+  <script type="text/javascript"></script>
+
+</body>
+
+</html>
+
+{% endblock %}
