@@ -13,6 +13,9 @@ class User(db.Model, UserMixin):
     email_address = db.Column(db.String(length=50), nullable=False, unique=True)
     password_hash = db.Column(db.String(length=60), nullable=False)
 
+    my_events = db.relationship('Event', backref='owner_of_event', lazy=True)
+    my_comments = db.relationship('Comment', backref='author_of_comment', lazy=True)
+
 
     @property
     def password(self):
@@ -33,12 +36,15 @@ class Event(db.Model):
     date_end = db.Column(db.Date, nullable=False)
     google_link = db.Column(db.String(length=1024), nullable=False, unique=False)
     photo_link = db.Column(db.String(length=1024), nullable=False, unique=False)
-    owner = db.Column(db.Integer(), nullable=False, unique=False)
+
+    owner = db.Column(db.Integer(), db.ForeignKey('user.id'), nullable=False)
+
     
 
 class Comment(db.Model):
     id = db.Column(db.Integer(), primary_key=True)
     content = db.Column(db.String(length=240), nullable=False, unique=False)
     date_posted = db.Column(db.DateTime, nullable=False, default=db.func.current_timestamp())
-    author_id = db.Column(db.Integer(), nullable=False, unique=False)
+
+    author = db.Column(db.Integer(), db.ForeignKey('user.id'), nullable=False)
     event_id = db.Column(db.Integer(), nullable=False, unique=False)

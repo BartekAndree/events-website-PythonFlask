@@ -10,6 +10,12 @@ from flask_login import login_user, logout_user, login_required, current_user
 def home_page():
     return render_template('home_page.html')
 
+@app.route('/profile')
+@login_required
+def profile_page():
+    
+    return render_template('profile_page.html')
+
 @app.route('/events_list', methods=['GET', 'POST'])
 def events_list():
     events = Event.query.order_by(Event.date_start).all()
@@ -21,7 +27,7 @@ def event_page(event_id):
     comments = Comment.query.filter_by(event_id=event_id).order_by(Comment.date_posted).all()
     form = AddCommentForm()
     if form.validate_on_submit():
-        new_comment = Comment(content=form.comment.data, event_id=event_id, author_id=current_user.id)
+        new_comment = Comment(content=form.comment.data, author_of_comment=current_user, event_id=event_id)
         db.session.add(new_comment)
         db.session.commit()
         flash('Your comment has been added!', category='success')
@@ -44,7 +50,7 @@ def add_event():
                         date_end=form.date_end.data,
                         google_link=form.google_link.data,
                         photo_link=form.photo_link.data,
-                        owner = current_user.id)
+                        owner_of_event = current_user)
         db.session.add(new_event)
         db.session.commit()
         flash(f"Event {new_event.event_name} created successfully!", category='success')

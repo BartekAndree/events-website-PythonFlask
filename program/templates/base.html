@@ -62,12 +62,12 @@
         <!-- Right elements -->
         {% if current_user.is_authenticated %}
         <div class="d-flex align-items-center">
-          <a href="#">
+          <a href="{{ url_for('profile_page') }}">
             <button type="button" class="btn btn-link px-3 mb-1" aria-controls="#picker-editor">
               {{ current_user.username }}
               <!-- <i class="fas fa-user-edit"></i> -->
               <img
-                src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20({{ current_user.id }}).webp"
+                src="https://mdbootstrap.com/img/Photos/Avatars/img%20({{ current_user.id }}).jpg"
                 class="rounded-circle mx-2"
                 height="25"
                 alt="Profile avatar"
