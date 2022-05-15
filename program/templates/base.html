@@ -46,7 +46,7 @@
             </li>
             <li class="nav-item">
               <a class="nav-link" href="{{ url_for('events_list') }}" aria-controls="#picker-editor" draggable="false">
-                Events list 
+                Events list
               </a>
             </li>
             <li class="nav-item">
@@ -66,13 +66,8 @@
             <button type="button" class="btn btn-link px-3 mb-1" aria-controls="#picker-editor">
               {{ current_user.username }}
               <!-- <i class="fas fa-user-edit"></i> -->
-              <img
-                src="https://mdbootstrap.com/img/Photos/Avatars/img%20({{ current_user.id }}).jpg"
-                class="rounded-circle mx-2"
-                height="25"
-                alt="Profile avatar"
-                loading="lazy"
-              />
+              <img src="https://mdbootstrap.com/img/Photos/Avatars/img%20({{ current_user.id }}).jpg"
+                class="rounded-circle mx-2" height="25" alt="Profile avatar" loading="lazy" />
             </button>
           </a>
           <a href="{{ url_for('logout_page') }}">
