@@ -6,6 +6,9 @@ from program import db
 from flask_login import login_user, logout_user, login_required, current_user
 
 @app.route('/')
+def index():
+    return render_template('home_page.html')
+
 @app.route('/home')
 def home_page():
     return render_template('home_page.html')
