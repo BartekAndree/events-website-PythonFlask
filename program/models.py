@@ -1,3 +1,4 @@
+from email.policy import default
 from sqlalchemy import null
 from program import db, login_manager
 from program import bcrypt
@@ -35,7 +36,7 @@ class Event(db.Model):
     date_start = db.Column(db.Date, nullable=False)
     date_end = db.Column(db.Date, nullable=False)
     google_link = db.Column(db.String(length=1024), nullable=False, unique=False)
-    photo_link = db.Column(db.String(length=1024), nullable=False, unique=False)
+    photo_link = db.Column(db.String(length=1024), nullable=False, unique=False, default='default_photo.png')
 
     owner = db.Column(db.Integer(), db.ForeignKey('user.id'), nullable=False)
 

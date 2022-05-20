@@ -146,9 +146,11 @@
             <div class="row d-flex justify-content-center">
               <div class="col-md-11 col-lg-9 col-xl-7">
                 <div class="d-flex flex-start mb-4">
+                  <a href="{{ url_for('profile_page', username=comment.author_of_comment.username) }}">
                   <img class="rounded-circle shadow-1-strong me-3"
                     src="https://mdbootstrap.com/img/Photos/Avatars/img%20({{ comment.author_of_comment.id }}).jpg" alt="avatar"
                     width="65" height="65" />
+                  </a>
                   <div class="card w-100">
                     <div class="card-body p-4">
                       <div class="">

@@ -9,20 +9,27 @@ from flask_login import login_user, logout_user, login_required, current_user
 def index():
     return render_template('home_page.html')
 
+
 @app.route('/home')
 def home_page():
     return render_template('home_page.html')
 
-@app.route('/profile')
-@login_required
-def profile_page():
-    
-    return render_template('profile_page.html')
+
+@app.route('/profile/<username>')
+def profile_page(username):
+    this_user = User.query.filter_by(username=username).first_or_404()
+    my_events = Event.query.filter_by(owner=this_user.id).all()
+    return render_template('profile_page.html' , my_events=my_events, this_user=this_user)
+
 
 @app.route('/events_list', methods=['GET', 'POST'])
 def events_list():
     events = Event.query.order_by(Event.date_start).all()
     return render_template('events_list.html', events=events)
+
+@app.route('/FAQ')
+def FAQ():
+    return render_template('faq_page.html')
 
 @app.route('/event_page/<int:event_id>', methods=['GET', 'POST'])
 def event_page(event_id):
@@ -41,6 +48,7 @@ def event_page(event_id):
             flash(f'There was an error with creating your comment: {err_msg}', category='danger')
 
     return render_template('event_page.html', event=event, comments=comments, form=form)
+
 
 @app.route('/add_event', methods=['GET', 'POST'])
 @login_required
@@ -66,8 +74,6 @@ def add_event():
     return render_template('add_event.html', form=form)
 
 
-
-
 @app.route('/register', methods=['GET', 'POST'])
 def register_page():
     form = RegisterForm()
@@ -86,6 +92,7 @@ def register_page():
 
     return render_template('register.html', form=form)
 
+
 @app.route('/login', methods=['GET', 'POST'])
 def login_page():
     form = LoginForm()
@@ -101,6 +108,7 @@ def login_page():
             flash('Username and password are not match! Please try again', category='danger')
 
     return render_template('login.html', form=form)
+
 
 @app.route('/logout')
 def logout_page():
