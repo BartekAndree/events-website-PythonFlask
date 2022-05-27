@@ -13,6 +13,9 @@ class User(db.Model, UserMixin):
     username = db.Column(db.String(length=30), nullable=False, unique=True)
     email_address = db.Column(db.String(length=50), nullable=False, unique=True)
     password_hash = db.Column(db.String(length=60), nullable=False)
+    isAdmin = db.Column(db.Boolean, default=False)
+    profilePicture = db.Column(db.String(35), nullable=False, default='default.jpg')
+    fullName = db.Column(db.String(length=50), nullable=True)
 
     my_events = db.relationship('Event', backref='owner_of_event', lazy=True)
     my_comments = db.relationship('Comment', backref='author_of_comment', lazy=True)

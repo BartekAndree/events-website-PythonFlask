@@ -1,14 +1,23 @@
-from program import app
+from program import app, db, admin, MyModelView
 from flask import render_template, redirect, url_for, flash
 from program.models import User, Event, Comment
 from program.forms import RegisterForm, LoginForm, AddEventForm, AddCommentForm
-from program import db
 from flask_login import login_user, logout_user, login_required, current_user
+
+
+admin.add_view(MyModelView(User, db.session))
+admin.add_view(MyModelView(Event, db.session))
+admin.add_view(MyModelView(Comment, db.session))
+
 
 @app.route('/')
 def index():
     return render_template('home_page.html')
 
+@app.route('/admin')
+@login_required
+def admin_page():
+    pass
 
 @app.route('/home')
 def home_page():
