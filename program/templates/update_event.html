@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+{% block requirements %}
+{% endblock %}
+{% block content %}
+
+{% if current_user.id == event.owner %}
+<div class="container mt-5">
+    <form method="POST">
+        {{ form.hidden_tag() }}
+
+        <div class="form-outline my-5">
+
+            {{ form.event_name(type="text", id="eventName", class="form-control",  maxlength="50", value=event.event_name ) }}
+            <label class="form-label" for="eventName">Name of event</label>
+        </div>
+
+        <div class="form-outline my-5">
+
+            {{ form.description(class="form-control", id="eventDescription", rows="8", maxlength="1500", value=event.description)}}
+            <label class="form-label" for="eventDescription">Description</label>
+
+        </div>
+
+        <div class="form-outline my-5">
+
+            <textarea class="form-control" id="eventDescriptionOff" rows="4" maxlength="1500" readonly>{{event.description}}</textarea>
+            <label class="form-label" for="eventDescriptionOff">Description</label>
+
+        </div>
+
+        <div class="row my-5">
+            <div class="col-md-6 my-1">
+                <div class="form-outline">
+
+                    {{ form.date_start(id="eventStartDate", class="form-control", type="date", value=event.date_start) }}
+                    <label class="form-label" for="eventStartDate">Start date</label>
+                </div>
+            </div>
+
+            <div class="col-md-6 my-1">
+                <div class="form-outline">
+
+                    {{ form.date_end(id="eventEndDate", class="form-control", type="date", value=event.date_end) }}
+                    <label class="form-label" for="eventEndDate">End date</label>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-outline my-5">
+
+            {{ form.google_link(type="url", id="eventGoogleURL", class="form-control", value=event.google_link) }}
+            <label class="form-label" for="eventGoogleURL">URL for google map</label>
+        </div>
+
+        <div class="form-outline my-5">
+
+            {{ form.photo_link(type="url", id="eventPhotoURL", class="form-control", value=event.photo_link) }}
+            <label class="form-label" for="eventPhotoURL">URL for picture</label>
+        </div>
+
+        <div class="d-grid">
+
+            {{ form.submit(class="btn btn-primary", value="Submit form", type="submit", id="eventSubmit") }}
+        </div>
+
+
+
+    </form>
+</div>
+{% else %}
+<div class="p-5 text-center bg-light">
+    <h1 class="mb-3 " style="color:#ff0000">Warrning</h1>
+    <h4 class="mb-3">You are not allowed to edit this event</h4>
+    <a class="btn btn-primary btn-lg" href="{{ url_for('index') }}" role="button">Go back!</a>
+  </div>
+{% endif %}
+
+{% endblock %}

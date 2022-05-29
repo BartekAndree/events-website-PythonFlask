@@ -25,7 +25,8 @@
               <h5 class="my-4">{{ request.view_args['username'] }}</h5>
               {% if current_user.username == request.view_args['username'] %}
               <div class="d-flex justify-content-center mb-2">
-                <button type="button" class="btn btn-danger">Upload photo</button>
+                <button type="button" class="btn btn-danger" data-mdb-toggle="popover" title="Works in progress"
+                data-mdb-content="Im working on it">Upload photo</button>
               </div>
               {% endif %}
             </div>
@@ -51,12 +52,13 @@
                   <p class="mb-0">Full Name</p>
                 </div>
                 <div class="col-sm-9">
-                  <p class="text-muted mb-0">
-                    {% if this_user.fullName == none %}
-                    Not set
-                    <i href="" class="fas fa-edit"></i>
+                  <p class="text-muted mb-0" >
+                    {% if this_user.fullName == none and this_user.id == current_user.id %}
+                      Not set
+                    <i href="" class="fas fa-edit ripple" data-mdb-toggle="modal" data-mdb-target="#fullNameModal" style="color: #ff0000"></i>
                     {% else %}
-                    {{ this_user.fullName }}
+                    
+                    <a  data-mdb-toggle="tooltip" title="You can set your name just once">{{ this_user.fullName }}</a>
                     {% endif %}
                   </p>
                 </div>
@@ -94,7 +96,7 @@
                     </div>
                     {% if this_user.id == current_user.id %}
                     <div class="col-sm-2">
-                      <a href="">
+                      <a href="{{ url_for('update_event', event_id=event.id) }}">
                         <button type="button" class="btn btn-danger btn-rounded" data-mdb-ripple-color="dark">Edit</button>
                       </a>
                     </div>
@@ -113,5 +115,31 @@
         </div>
       </div>
     </div>
+    <!-- Modal Set Name -->
+    <form method="POST">
+      {{ formSetName.hidden_tag() }}
+      <div class="modal fade" id="fullNameModal" tabindex="-1" aria-labelledby="fullNameModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="fullNameModalLabel">Set your Name and Surname</h5>
+              <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+
+              <div class="form-outline">
+                {{ formSetName.full_name(class="form-control", id="fullName", type="text") }}
+                <label class="form-label" for="form12">Full Name</label>
+              </div>
+
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal">Close</button>
+              {{ formSetName.submit(type="submit", class="btn btn-primary") }}
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
   </section>
 {% endblock %}

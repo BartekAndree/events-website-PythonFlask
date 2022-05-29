@@ -1,7 +1,7 @@
 from program import app, db, admin, MyModelView
 from flask import render_template, redirect, url_for, flash
 from program.models import User, Event, Comment
-from program.forms import RegisterForm, LoginForm, AddEventForm, AddCommentForm
+from program.forms import RegisterForm, LoginForm, AddEventForm, AddCommentForm, SetFullName
 from flask_login import login_user, logout_user, login_required, current_user
 
 
@@ -24,11 +24,22 @@ def home_page():
     return render_template('home_page.html')
 
 
-@app.route('/profile/<username>')
+@app.route('/profile/<username>', methods=['GET', 'POST'])
 def profile_page(username):
     this_user = User.query.filter_by(username=username).first_or_404()
     my_events = Event.query.filter_by(owner=this_user.id).all()
-    return render_template('profile_page.html' , my_events=my_events, this_user=this_user)
+    formSetName = SetFullName()
+    if formSetName.validate_on_submit():
+        this_user.fullName = formSetName.full_name.data
+        db.session.commit()
+        flash(f"Your profile updated successfully!", category='success')
+        return redirect(url_for('profile_page', username=current_user.username))
+
+    if formSetName.errors != {}: #If there are not errors from the validations
+        for err_msg in formSetName.errors.values():
+            flash(f'There was an error with updating your profile: {err_msg}', category='danger')
+
+    return render_template('profile_page.html' , my_events=my_events, this_user=this_user, formSetName=formSetName)
 
 
 @app.route('/events_list', methods=['GET', 'POST'])
@@ -79,8 +90,30 @@ def add_event():
     if form.errors != {}: #If there are not errors from the validations
         for err_msg in form.errors.values():
             flash(f'There was an error with creating an event: {err_msg}', category='danger')
-
     return render_template('add_event.html', form=form)
+
+
+@app.route('/update_event/<int:event_id>', methods=['GET', 'POST'])
+@login_required
+def update_event(event_id):
+    event = Event.query.get_or_404(event_id)
+    form = AddEventForm()
+    if form.validate_on_submit():
+        event.event_name = form.event_name.data
+        event.description = form.description.data
+        event.date_start = form.date_start.data
+        event.date_end = form.date_end.data
+        event.google_link = form.google_link.data
+        event.photo_link = form.photo_link.data
+        db.session.commit()
+        flash(f"Event {event.event_name} updated successfully!", category='success')
+        return redirect(url_for('events_list'))
+
+    if form.errors != {}: #If there are not errors from the validations
+        for err_msg in form.errors.values():
+            flash(f'There was an error with updating an event: {err_msg}', category='danger')
+    return render_template('update_event.html', form=form, event=event)
+    
 
 
 @app.route('/register', methods=['GET', 'POST'])
@@ -94,7 +127,7 @@ def register_page():
         db.session.commit()
         login_user(user_to_create)
         flash(f"Account created successfully! You are now logged in as {user_to_create.username}", category='success')
-        return redirect(url_for('home_page'))
+        return redirect(url_for('index'))
     if form.errors != {}: #If there are not errors from the validations
         for err_msg in form.errors.values():
             flash(f'There was an error with creating a user: {err_msg}', category='danger')
@@ -112,7 +145,7 @@ def login_page():
         ):
             login_user(attempted_user)
             flash(f'Success! You are logged in as: {attempted_user.username}', category='success')
-            return redirect(url_for('home_page'))
+            return redirect(url_for('index'))
         else:
             flash('Username and password are not match! Please try again', category='danger')
 
@@ -123,7 +156,7 @@ def login_page():
 def logout_page():
     logout_user()
     flash("You have been logged out!", category='info')
-    return redirect(url_for("home_page"))
+    return redirect(url_for("index"))
 
 
 

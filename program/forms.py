@@ -40,3 +40,7 @@ class AddEventForm(FlaskForm):
 class AddCommentForm(FlaskForm):
     comment = TextAreaField(label='Comment:', validators=[Length(max=240), DataRequired()])
     submit = SubmitField(label='Add Comment')
+
+class SetFullName(FlaskForm):
+    full_name = StringField(label='Full Name:', validators=[Length(min=4, max=30), DataRequired()])
+    submit = SubmitField(label='Save changes kurwa')
