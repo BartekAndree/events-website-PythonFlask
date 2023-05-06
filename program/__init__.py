@@ -8,8 +8,7 @@ from os import environ
 
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://aiwxupjtbdcmyz:a0f28a239779491e2b9da5b1ae2ec8869ce96d2bb2969877167b52849aa4509b@ec2-63-34-180-86.eu-west-1.compute.amazonaws.com:5432/d713j57nds5er'
-#app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SECRET_KEY'] = '6d84712a50d8a51fbde362773dd218eb'
